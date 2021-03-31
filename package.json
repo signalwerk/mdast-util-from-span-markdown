@@ -5,8 +5,8 @@
   "author": "Stefan Huber <sh@signalwerk.ch>",
   "repository": "https://github.com/signalwerk/mdast-util-from-span-markdown",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
