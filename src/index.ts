@@ -2,6 +2,9 @@ const EMPHASIS_STRONG_REGEX = /([\*_]{1,2})(.*?)\1/g;
 const LINK_REGEX = /\[([^[]*)\]\(([^)]*)\)/g;
 const INLINE_CODE_REGEX = /(`)(.*?)(\1)/g;
 
+// yes RegEx are statefull (regexp.lastIndex)
+const cloneRegExp = (regExp: RegExp) => new RegExp(regExp.source, regExp.flags);
+
 export enum mdTypes {
   INLINE_CODE = "inlineCode",
   EMPHASIS = "emphasis",
@@ -46,7 +49,7 @@ type intermediateMdToken =
   | (InlineCode & toketPosition)
   | (Text & toketPosition);
 
-const md2obj = (md: string, rule = 0): mdTokens => {
+const fromMarkdown = (md: string, rule = 0): mdTokens => {
   // all the regex rules
   const rules = [
     // link
@@ -54,7 +57,7 @@ const md2obj = (md: string, rule = 0): mdTokens => {
       match: LINK_REGEX,
       tokenize: (item: RegExpMatchArray) => ({
         type: mdTypes.LINK,
-        children: md2obj(item[1]),
+        children: fromMarkdown(item[1]),
         url: item[2],
       }),
     },
@@ -63,7 +66,7 @@ const md2obj = (md: string, rule = 0): mdTokens => {
       match: EMPHASIS_STRONG_REGEX,
       tokenize: (item: RegExpMatchArray) => ({
         type: item[1].length == 2 ? mdTypes.STRONG : mdTypes.EMPHASIS,
-        children: md2obj(item[2]),
+        children: fromMarkdown(item[2]),
       }),
     },
     // inline code
@@ -87,20 +90,27 @@ const md2obj = (md: string, rule = 0): mdTokens => {
 
   // including start and end
   const rawToken: intermediateMdToken[] = [
+    // mark start
     {
       start: 0,
       end: 0,
     },
-    ...Array.from(md.matchAll(rules[rule].match)).map((item) => ({
-      start: (item && item.index) || 0,
-      end: ((item && item.index) || 0) + item[0].length,
-      ...rules[rule].tokenize(item),
-    })),
-    {
-      start: md.length,
-      end: md.length,
-    },
   ];
+  // because we don't have String.prototype.matchAll() on all browsers
+  let match;
+  let regex = cloneRegExp(rules[rule].match);
+  while ((match = regex.exec(md)) !== null) {
+    rawToken.push({
+      start: match.index || 0,
+      end: (match.index || 0) + match[0].length,
+      ...rules[rule].tokenize(match),
+    });
+  }
+  // mark end
+  rawToken.push({
+    start: md.length,
+    end: md.length,
+  });
 
   const tokens: mdTokens = [];
 
@@ -108,7 +118,7 @@ const md2obj = (md: string, rule = 0): mdTokens => {
     // we have a gap we need to fill with text
     if (index > 0 && rawToken[index - 1].end < item.start) {
       tokens.push(
-        ...md2obj(md.slice(rawToken[index - 1].end, item.start), rule + 1)
+        ...fromMarkdown(md.slice(rawToken[index - 1].end, item.start), rule + 1)
       );
     }
     if ("type" in item) {
@@ -120,4 +130,4 @@ const md2obj = (md: string, rule = 0): mdTokens => {
   return tokens;
 };
 
-export default md2obj;
+export default fromMarkdown;

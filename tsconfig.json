@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES5",
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
@@ -22,8 +22,7 @@
     "outDir": "./dist/",
     "types": ["node", "jest"],
     "lib": [
-      // "ES6",
-      "ES2020"
+      "ES5"
     ]
   },
   "include": ["src/**/*.ts"],
