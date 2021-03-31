@@ -1,6 +1,6 @@
 {
   "name": "mdast-util-from-span-markdown",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Minimalistic parser (TypeScript) for span elements written in markdown",
   "author": "Stefan Huber <sh@signalwerk.ch>",
   "repository": "https://github.com/signalwerk/mdast-util-from-span-markdown",
