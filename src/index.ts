@@ -18,6 +18,11 @@ export type Emphasis = {
   children: Array<InlineCode | Text>;
 };
 
+export type Strong = {
+  type: mdTypes.EMPHASIS;
+  children: Array<InlineCode | Text>;
+};
+
 export type InlineCode = {
   type: mdTypes.INLINE_CODE;
   value: string;
@@ -31,10 +36,10 @@ export type Text = {
 export type Link = {
   type: mdTypes.LINK;
   url: string;
-  children: Array<Emphasis | InlineCode | Text>;
+  children: Array<Emphasis | Strong | InlineCode | Text>;
 };
 
-export type mdToken = Link | Emphasis | InlineCode | Text;
+export type mdToken = Link | Emphasis | Strong | InlineCode | Text;
 export type mdTokens = Array<mdToken>;
 
 export type toketPosition = {
@@ -46,6 +51,7 @@ type intermediateMdToken =
   | toketPosition
   | (Link & toketPosition)
   | (Emphasis & toketPosition)
+  | (Strong & toketPosition)
   | (InlineCode & toketPosition)
   | (Text & toketPosition);
 
