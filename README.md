@@ -20,30 +20,57 @@ fromMarkdown(md);
 
 ## Return
 
-```json
+```js
 [
-  { "type": "text", "value": "Say " },
   {
-    "type": "strong",
-    "children": [{ "type": "text", "value": "Hello" }]
+    type: "text",
+    value: "Say ",
   },
-  { "type": "text", "value": " " },
   {
-    "type": "link",
-    "url": "https://example.com",
-    "children": [{ "type": "text", "value": "World" }]
+    type: "strong",
+    children: [
+      {
+        type: "text",
+        value: "Hello",
+      },
+    ],
   },
-  { "type": "text", "value": " in " },
   {
-    "type": "inlineCode",
-    "value": "code"
+    type: "text",
+    value: " ",
   },
-  { "type": "text", "value": "! " },
   {
-    "type": "emphasis",
-    "children": [{ "type": "text", "value": "Thanks!" }]
-  }
-]
+    type: "link",
+    url: "https://example.com",
+    children: [
+      {
+        type: "text",
+        value: "World",
+      },
+    ],
+  },
+  {
+    type: "text",
+    value: " in ",
+  },
+  {
+    type: "inlineCode",
+    value: "code",
+  },
+  {
+    type: "text",
+    value: "! ",
+  },
+  {
+    type: "emphasis",
+    children: [
+      {
+        type: "text",
+        value: "Thanks!",
+      },
+    ],
+  },
+];
 ```
 
 ## Technical decission
