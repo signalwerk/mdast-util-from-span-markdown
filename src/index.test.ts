@@ -1,6 +1,6 @@
 import fromMarkdown from "./index";
 
-test("the data is peanut butter", () => {
+test("Minimal one test", () => {
   expect(1).toBe(1);
 });
 
@@ -8,6 +8,18 @@ test("text", () => {
   expect(fromMarkdown("Hello World!")).toMatchObject([
     { type: "text", value: "Hello World!" },
   ]);
+});
+
+test("text empty", () => {
+  expect(fromMarkdown("")).toMatchObject([{ type: "text", value: "" }]);
+});
+
+test("text null", () => {
+  expect(fromMarkdown(null)).toBeNull();
+});
+
+test("text undefined", () => {
+  expect(fromMarkdown(undefined)).toBeUndefined();
 });
 
 test("emphasis", () => {

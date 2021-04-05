@@ -40,7 +40,7 @@ export type Link = {
 };
 
 export type mdToken = Link | Emphasis | Strong | InlineCode | Text;
-export type mdTokens = Array<mdToken>;
+export type mdTokens = Array<mdToken> | null | undefined;
 
 export type toketPosition = {
   start: number;
@@ -55,7 +55,11 @@ type intermediateMdToken =
   | (InlineCode & toketPosition)
   | (Text & toketPosition);
 
-const fromMarkdown = (md: string, rule = 0): mdTokens => {
+const fromMarkdown = (md: string | null | undefined, rule = 0): mdTokens => {
+  if (md === null || md === undefined) {
+    return md;
+  }
+
   // all the regex rules
   const rules = [
     // link
@@ -122,10 +126,18 @@ const fromMarkdown = (md: string, rule = 0): mdTokens => {
 
   rawToken.forEach((item, index) => {
     // we have a gap we need to fill with text
-    if (index > 0 && rawToken[index - 1].end < item.start) {
-      tokens.push(
-        ...fromMarkdown(md.slice(rawToken[index - 1].end, item.start), rule + 1)
+    if (
+      index > 0 &&
+      (rawToken[index - 1].end < item.start || rawToken.length === 2)
+    ) {
+      const mdTokens = fromMarkdown(
+        md.slice(rawToken[index - 1].end, item.start),
+        rule + 1
       );
+
+      if (mdTokens) {
+        tokens.push(...mdTokens);
+      }
     }
     if ("type" in item) {
       const { start, end, ...rest } = item;
