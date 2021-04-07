@@ -15,11 +15,11 @@ test("text empty", () => {
 });
 
 test("text null", () => {
-  expect(fromMarkdown(null)).toBeNull();
+  expect(fromMarkdown(null)).toMatchObject([]);
 });
 
 test("text undefined", () => {
-  expect(fromMarkdown(undefined)).toBeUndefined();
+  expect(fromMarkdown(undefined)).toMatchObject([]);
 });
 
 test("emphasis", () => {

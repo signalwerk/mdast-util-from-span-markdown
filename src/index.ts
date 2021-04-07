@@ -40,7 +40,7 @@ export type Link = {
 };
 
 export type mdToken = Link | Emphasis | Strong | InlineCode | Text;
-export type mdTokens = Array<mdToken> | null | undefined;
+export type mdTokens = Array<mdToken>;
 
 export type toketPosition = {
   start: number;
@@ -55,9 +55,9 @@ type intermediateMdToken =
   | (InlineCode & toketPosition)
   | (Text & toketPosition);
 
-const fromMarkdown = (md: string | null | undefined, rule = 0): mdTokens => {
-  if (md === null || md === undefined) {
-    return md;
+const fromMarkdown = (md: string, rule = 0): mdTokens => {
+  if (!(typeof md === "string" || (md as any) instanceof String)) {
+    return [];
   }
 
   // all the regex rules
