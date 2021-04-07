@@ -19,7 +19,7 @@ export type Emphasis = {
 };
 
 export type Strong = {
-  type: mdTypes.EMPHASIS;
+  type: mdTypes.STRONG;
   children: Array<InlineCode | Text>;
 };
 
