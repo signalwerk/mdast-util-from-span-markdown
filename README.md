@@ -82,6 +82,14 @@ fromMarkdown(md);
 
 Because this is not a full markdown parser (see [remark](https://github.com/remarkjs/remark) otherwise) with support for block elements, this code is especially handy for «one-line markdown». Think for example about translations comming from a system that does not support rich text formatting.
 
+## Render
+If you like to render the output of `fromMarkdown()` in [React](https://reactjs.org/) have a look at [`examples/md.tsx`](./examples/md.tsx) (TypeScript).
+This is not included in the npm-package. You should get a copy and adjust it to your needs:
+
+```sh
+curl https://raw.githubusercontent.com/signalwerk/mdast-util-from-span-markdown/main/examples/md.tsx > md.tsx
+```
+
 ## Thank you
 
 - [TypeScript + Node.js Project Boilerplate](https://github.com/metachris/typescript-nodejs-boilerplate)
