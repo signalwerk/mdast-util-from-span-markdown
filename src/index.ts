@@ -62,6 +62,14 @@ const fromMarkdown = (md: string, rule = 0): mdTokens => {
 
   // all the regex rules
   const rules = [
+    // inline code
+    {
+      match: INLINE_CODE_REGEX,
+      tokenize: (item: RegExpMatchArray) => ({
+        type: mdTypes.INLINE_CODE,
+        value: item[2],
+      }),
+    },
     // link
     {
       match: LINK_REGEX,
@@ -77,14 +85,6 @@ const fromMarkdown = (md: string, rule = 0): mdTokens => {
       tokenize: (item: RegExpMatchArray) => ({
         type: item[1].length == 2 ? mdTypes.STRONG : mdTypes.EMPHASIS,
         children: fromMarkdown(item[2]),
-      }),
-    },
-    // inline code
-    {
-      match: INLINE_CODE_REGEX,
-      tokenize: (item: RegExpMatchArray) => ({
-        type: mdTypes.INLINE_CODE,
-        value: item[2],
       }),
     },
   ];

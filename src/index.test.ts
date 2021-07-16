@@ -81,6 +81,18 @@ test("inline code", () => {
   ]);
 });
 
+
+test("inline code has no styles", () => {
+  expect(fromMarkdown("Hello `World * no bold *`!")).toMatchObject([
+    { type: "text", value: "Hello " },
+    {
+      type: "inlineCode",
+      value: "World * no bold *",
+    },
+    { type: "text", value: "!" },
+  ]);
+});
+
 test("Combinded", () => {
   expect(
     fromMarkdown(
